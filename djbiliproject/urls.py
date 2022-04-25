@@ -68,7 +68,7 @@ urlpatterns = [
     path('echarts_info/', views.echarts_info),
     path('echarts_info/bar', views.echarts_infobar),
 
-    #上传文件
+    #上传文件ddd
     path('upload_info/', views.upload_info),
     path('upload_form/', views.upload_form),
 
