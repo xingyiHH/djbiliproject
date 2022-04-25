@@ -1,0 +1,161 @@
+
+{% extends "basely.html" %}
+{% block base %}
+<div class="container">
+    <div class="panel panel-default">
+         <div class="panel-heading">
+             <h3 class="panel-title">Ajax实现新增任务</h3>
+         </div>
+         <div class="panel-body">
+            <form method="post" id="form_taskadd" novalidate>
+                {% for filed in form %}
+                <div class="form-group">
+                    <label>{{ filed.label }}</label>
+                    {{ filed}}
+                    <span class="err_msg" style="color:red">{{ filed.errors.0}}</span>
+                    {% endfor %}
+                    <!--<input type="text" class="form-control" placeholder="请输入部门名称" name="title"/>-->
+                </div>
+                <button id="btn_add" type="submit" class="btn btn-primary">提 交</button>
+            </form>
+             <div style="head:1px"></div>
+             <h3>Ajax示例展示</h3>
+             <div class="container">
+                 <div class="panel-heading">
+                     <h3 class="panel-title">示例1</h3>
+                 </div>
+                <div class="panel-body">
+                    <input id="btn1" type="button" class="btn btn-primary" value="点击"  />
+                </div>
+             </div>
+             <div class="container">
+                 <div class="panel-heading">
+                     <h3 class="panel-title">示例2</h3>
+                 </div>
+                <div class="panel-body">
+                    <input type="text" id="txtUser" placeholder="姓名"/>
+                    <input type="text" id="txtAge" placeholder="年龄"/>
+                    <input id="btn2" type="button" class="btn btn-primary" value="点击"  />
+                </div>
+             </div>
+             <div class="container">
+                 <div class="panel-heading">
+                     <h3 class="panel-title">示例3</h3>
+                 </div>
+                <div class="panel-body">
+                    <form id="form3">
+                         <input type="text" name="txtUser" placeholder="姓名"/>
+                         <input type="text" name="txtAge" placeholder="年龄"/>
+                         <input id="btn3" type="button" class="btn btn-primary" value="点击"  />
+                    </form>
+
+                </div>
+             </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+<script type="text/javascript">
+    <!--function clickMe(){-->
+        <!--$.ajax({-->
+            <!--url:'/test/ajax/',-->
+            <!--type:"get",-->
+            <!--data:{n1:123,n2:1234},-->
+            <!--success:function(res){-->
+                <!--console.log(res)-->
+            <!--}-->
+        <!--})-->
+    <!--}-->
+
+
+     $(function(){
+         <!--页面框架加载完成之后代码自动执行-->
+         bindBtnEvent();
+         bindBtnEvent2();
+         bindBtnEvent3();
+         bindBtntaskaddEvent();
+
+     })
+     function bindBtnEvent(){
+        $('#btn1').click(function (){
+               $.ajax({
+                    url:'/test/ajax/',
+                    type:"post",
+                    data:{n1:123,n2:1234},
+                    dataType:"JSON",
+                    success:function(res){
+                        console.log(res)
+                        console.log(res.data)
+                        console.log(res.status)
+						}
+					})
+			});
+	 }
+
+    function bindBtnEvent2(){
+            $('#btn2').click(function (){
+                   $.ajax({
+                        url:'/test/ajax/',
+                        type:"post",
+                        data:{
+                        n1:$("txtUser").val(),
+                        n2:$("txtAge").val(),
+                        },
+                        dataType:"JSON",
+                        success:function(res){
+                            console.log(res)
+                            console.log(res.data)
+                            console.log(res.status)
+                        }
+                    })
+			});
+	}
+    function bindBtnEvent3(){
+            $('#btn3').click(function (){
+                   $.ajax({
+                        url:'/test/ajax/',
+                        type:"post",
+                        data:$("#form3").serialize(), //表单全部数据发送
+                        dataType:"JSON",
+                        success:function(res){
+                            console.log(res)
+                            console.log(res.data)
+                            console.log(res.status)
+                        }
+                    })
+				});
+		 }
+	function bindBtntaskaddEvent(){
+	    $('#btn_add').click(function (){
+                   $(".err_msg").empty();
+                   $.ajax({
+                        url:'/task_info/add/',
+                        type:"post",
+                        data:$("#form_taskadd").serialize(), //表单全部数据发送
+                        dataType:"JSON",
+                        success:function(res){
+                            if (res.status){
+                                alert("添加成功");
+                                location.reload();
+                                console.log("添加成功")
+
+                            } else {
+									$.each(res.error,function(name,data){
+                                    $('#id_' + name).next().text(data[0]);
+                                    console.log(data)
+                                })
+                            }
+                        }
+                    })
+			});
+	
+	}
+
+
+        
+	
+
+</script>
+

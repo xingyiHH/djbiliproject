@@ -1,0 +1,18 @@
+{% extends 'basely.html' %}
+{% load static %}
+{% block base %}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+             <h3 class="panel-title">上传数据</h3>
+        </div>
+        <div class="panel-body">
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                <input type="text" name="username">
+                <input type="file",name="avator">
+                <input type="submit" class="btn btn-primary" value="提 交">
+            </form>
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "basely.html" %}
+
+{% block base %}
+<div class="container">
+        <div class="panel panel-default">
+      <!-- Default panel contents -->
+            <div class="panel-heading">
+                  <span class="glyphicon glyphicon-tn-list" aria-hidden="true"></span>
+                  批量上传
+            </div>
+            <div class="panel-body">
+                <form class="form-group" method="post" enctype="multipart/form-data" action="/depart_info/mult/">
+                    {% csrf_token %}
+                    <input type="file" name="filemult" style="margin-bottom:10px">
+                    <input type="submit" value="上传" class="btn btn-info btn-sm">
+                </form>
+            </div>
+        </div>
+
+        <div style="margin-bottom:10px">
+            <a class="btn btn-success" href="/depart_info/add/">
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建部门
+            </a>
+        </div>
+
+        <div class="panel panel-default">
+      <!-- Default panel contents -->
+              <div class="panel-heading">
+                  <span class="glyphicon glyphicon-tn-list" aria-hidden="true"></span>
+                  部门列表
+              </div>
+
+      <!-- Table -->
+      <table class="table table-bordered" >
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>部门名称</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for obj in queryset %}
+          <tr>
+            <th>{{ obj.id }}</th>
+            <td>{{ obj.title }}</td>
+            <td>
+                <a class="btn btn-primary btn-xs" href="/depart_info/{{ obj.id }}/edit/">编辑</a>
+                <a class="btn btn-danger btn-xs" href="/depart_info/del/?pid={{ obj.id }}">删除</a>
+            </td>
+
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+</div>
+{% endblock %}
+
+
